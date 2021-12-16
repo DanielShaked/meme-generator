@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?">
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Generator</title>
+</head>
+
+<body onload="init()">
+
+
+    <div class="main-container grid">
+
+        <div class="modal hidden grid">
+
+        </div>
+
+
+
+
+
+        <header class="main-header">
+            <i class="far fa-user-circle"></i>
+            <i class="fas fa-cog"></i>
+            <h2> Meme &nbsp Generator</h2>
+
+            <!-- <div class="logo"><img src="./img/logo.svg" alt=""></div> -->
+
+
+        </header>
+
+        <aside class="side-bar">
+            <nav class="main-nav">
+                <ul class="clean-list grid">
+                    <li><a onclick="onSetFilter('COMEDY')" href="#">Comedy</a></li>
+                    <li><a onclick="onSetFilter('ANIMALS')" href="#">Animals</a></li>
+                    <li><a onclick="onSetFilter('PLACES')" href="#">Places</a></li>
+                    <li><a onclick="onSetFilter('FOOD')" href="#">Food</a></li>
+                    <li><a onclick="onSetFilter('CELEBRITY')" href="#">Celbrity</a></li>
+                    <li><a onclick="onSetFilter('USER')" href="#">My Mems</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="main-content  grid"></div>
+
+        <div class="editor-container  hidden grid">
+            <span onclick="onToggleEditor(false)" class="escape">X</span>
+            <canvas height="400px" width="400px"></canvas>
+
+            <div class="tools-container grid">
+                <div class="edit-txt">
+                    <i onclick="onMoveLine(-1)" class="fas fa-arrow-up side"></i>
+                    <i onclick="onMoveLine(1)" class="fas fa-arrow-down side"></i>
+                    <input class="input-txt" placeholder="Enter your meme here..." type="text"
+                        oninput="onChangeText(this.value)">
+                    <i onclick="onSetSize(2)" class="far fa-plus-square under"></i>
+                    <i onclick="onSetSize(-2)" class="far fa-minus-square under"></i>
+
+                    <label for="color-picker">
+                        <i class="fas fa-palette under"></i>
+                        <input onchange="onChangeColor(this.value)" id="color-picker" type="color"
+                            style="visibility: hidden;">
+                    </label>
+                </div>
+                <div class="edit-emoji">
+                    <img class="sticker" src="img/stickers/s1.png" alt="">
+                    <img class="sticker" src="img/stickers/s2.png" alt="">
+                    <img class="sticker" src="img/stickers/s3.png" alt="">
+                    <img class="sticker" src="img/stickers/s4.png" alt="">
+
+                </div>
+                <div class="up-download">
+                    <i onclick="onSaveMeme()" class="far fa-save center"></i>
+                    <i class="fab fa-facebook-square center"></i>
+                    <i class="fas fa-download center"></i>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <footer class="main-footer">
+            <div class="icons">
+                <a href="https://github.com/danielshaked" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="copyrights">
+                <small> <i class="far fa-copyright"></i> powered by Daniel Shaked 2021</small>
+            </div>
+        </footer>
+
+
+    </div>
+
+
+
+    <i onclick="onNextPage()" class="fas fa-chevron-left"></i>
+
+
+
+    <script src="js/service/storage.service.js"></script>
+    <script src="js/service/meme.service.js"></script>
+    <script src="js/service/gallery.service.js"></script>
+    <script src="js/controller/user.controller.js"></script>
+    <script src="js/controller/gallery.controller.js"></script>
+    <script src="js/controller/Meme.controller.js"></script>
+</body>
+
+</html>

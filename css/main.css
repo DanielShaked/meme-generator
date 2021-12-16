@@ -1,0 +1,346 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #FEFBF3;
+    /* text-align: center; */
+    height: 100vh;
+    /* text-align: center; */
+}
+
+
+
+
+/* FONTS */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2&display=swap');
+
+/* BASICS */
+
+h2 {
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    letter-spacing: 2px;
+}
+
+img {
+    height: 180px;
+    width: 180px;
+    object-fit: cover;
+}
+
+i {
+    cursor: pointer;
+}
+
+/* LAYOUT-SITE */
+
+.main-container {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    grid-template-columns: 90% 10%;
+    grid-template-rows: 1fr 7fr 1fr;
+    grid-template-areas:
+        "header header"
+        "main aside"
+        "footer footer";
+}
+
+
+
+/* HEDER */
+.main-container .main-header {
+    grid-area: header;
+    background-color: #323232;
+    color: #8E0505;
+    position: relative;
+}
+
+
+/* CONTENT */
+.main-container .main-content {
+    background-color: #212121;
+    grid-area: main;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 10px;
+    gap: 10px;
+}
+
+.card-gallery {
+    cursor: pointer;
+}
+
+/* ASIDE */
+.main-container .side-bar {
+    border-left: 1px solid #8E0505;
+    grid-area: aside;
+    border-top: 1px solid black;
+    background-color: #323232;
+    border-bottom: 1px solid black;
+
+}
+
+.main-container .side-bar ul {
+    grid-template-columns: 1fr;
+    height: 70vh;
+    grid-template-rows: repeat(5, 1fr);
+    font-family: monospace;
+}
+
+.main-container .side-bar li {
+    height: 60px;
+    border-bottom: 1px solid #8E0505;
+    text-align: center;
+    margin: auto 0;
+}
+
+.main-container .side-bar a {
+    font-family: 'Baloo Bhaijaan 2', cursive;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+}
+
+.main-container .side-bar a:hover {
+    color: #8E0505;
+}
+
+
+/* FOOTER */
+.main-container .main-footer {
+    text-align: center;
+    background-color: #323232;
+    grid-area: footer;
+    height: 80px;
+}
+
+.icons {
+    margin-top: 25px;
+}
+
+.icons i {
+    font-size: 35px;
+    margin-left: 20px;
+    color: gray;
+}
+
+.copyrights {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+}
+
+.far.fa-copyright {
+    font-size: 10px;
+}
+
+/* EDITOR-POSITIONING & BASICS*/
+
+.editor-container {
+    background-color: #212121;
+
+    position: relative;
+    grid-area: 2/1/-2/-2;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.editor-container canvas {
+    border: 1px solid black;
+    grid-area: 1/1/-1/2;
+    margin: 10px 0 5px 35px;
+}
+
+.editor-container .tools-container {
+    margin: 30px 50px 50px 20px;
+    /* border: 1px solid #FF2626; */
+    grid-area: 1/2/-1/3;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+}
+
+.input-txt {
+    background-color: transparent;
+    color: white;
+    border: 1px solid gray;
+    position: absolute;
+    bottom: 40%;
+    left: 20%;
+    width: 250px;
+    padding: 5px;
+}
+
+
+input::placeholder {
+    color: gray;
+    font-size: 1em;
+    font-style: italic;
+}
+
+.edit-txt {
+    position: relative;
+    grid-area: 1/2/2/3;
+    background-color: #323232;
+}
+
+.edit-emoji {
+    grid-area: 2/2/3/3;
+    border-left: 3px solid #323232;
+    border-right: 3px solid #323232;
+
+    /* background-color: #212121; */
+}
+
+.up-download {
+    grid-area: 3/2/3/3;
+    background-color: #323232;
+}
+
+.escape {
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+
+
+/* MODAL POSITIONING & BASICS */
+
+.modal {
+    grid-area: 2/1/-2/-2;
+
+}
+
+
+
+
+
+
+
+/* HELPERS */
+
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.grid {
+    display: grid;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.fas.fa-chevron-left {
+    position: fixed;
+    top: 40%;
+    left: 1%;
+    font-size: 100px;
+    opacity: 0.3;
+}
+
+.fas.fa-chevron-left:hover {
+    opacity: 1
+}
+
+
+
+
+/* ICONS */
+
+.far.fa-user-circle {
+    font-size: 30px;
+    position: absolute;
+    bottom: 6px;
+    right: 10%;
+
+}
+
+.fas.fa-cog {
+    font-size: 30px;
+    position: absolute;
+    bottom: 6px;
+    right: 14%;
+}
+
+
+.tools-container i {
+    font-size: 30px;
+}
+
+.under {
+    position: absolute;
+    bottom: 5px;
+}
+
+.fa-plus-square.under {
+    right: 35%;
+}
+
+.fa-minus-square.under {
+    right: 45%;
+}
+
+.fa-palette.under {
+    right: 55%
+}
+
+.center {
+    position: absolute;
+    margin-right: 10px;
+}
+
+.up-download {
+    position: relative;
+}
+
+.fab.fa-facebook-square.center {
+    top: 30%;
+    left: 30%;
+}
+
+.fas.fa-download.center {
+    top: 30%;
+    left: 45%;
+}
+
+.far.fa-save.center {
+    top: 30%;
+    left: 60%;
+}
+
+.sticker {
+    margin-top: 20px;
+    width: 70px;
+    height: 70px;
+}
+
+.side {
+    position: absolute;
+}
+
+.fas.fa-arrow-down.side {
+    left: 0%;
+    top: 35%;
+}
+
+.fas.fa-arrow-up.side {
+    left: 10%;
+    top: 35%;
+}
