@@ -11,24 +11,36 @@ const gMemeDef = {
     selectedLineIdx: 0,
     lines: [{
         txt: '',
-        coordsTxt: { x: 400 / 10, y: 400 / 10 },
-        size: 40,
-        align: 'left',
-        color: 'red'
+        coordsTxt: { x: 200, y: 35 },
+        size: 35,
+        align: 'start',
+        color: 'white',
+        strokeColor: 'black',
+        font: 'Impact',
+
+
     },
     {
         txt: '',
-        coordsTxt: { x: 400 / 10, y: 400 / 2 },
-        size: 40,
-        align: 'left',
-        color: 'red'
+        coordsTxt: { x: 200, y: 300 },
+        size: 35,
+        align: 'start',
+        color: 'white',
+        strokeColor: 'black',
+        font: 'Impact',
+
+
+
     },
     {
         txt: '',
-        size: 40,
-        coordsTxt: { x: 400 / 10, y: 300 },
-        align: 'left',
-        color: 'red'
+        size: 35,
+        coordsTxt: { x: 200, y: 200 },
+        align: 'start',
+        color: 'white',
+        strokeColor: 'black',
+        font: 'Impact',
+
     }
     ]
 }
@@ -46,11 +58,12 @@ function getMeme() {
         imgId: meme.selectedLineIdx,
         lineIdx: meme.selectedLineIdx,
         lines: meme.lines,
+
     }
 }
 
 
-// buttons actions
+// actions (call from controller)
 
 function changeText(txt) {
     gMeme.lines[gMeme.selectedLineIdx].txt = txt;
@@ -58,16 +71,13 @@ function changeText(txt) {
 
 
 function setImg(imgId) {
+    let storageMatch;
     if (savedMemes) {
-        console.log('check1');
-        var bla = savedMemes.find(meme => meme.selectedImgId === imgId)
+        storageMatch = savedMemes.find(meme => meme.selectedImgId === imgId)
     }
-    if (bla) {
-        console.log('check2');
-
-        gMeme = bla;
+    if (storageMatch) {
+        gMeme = storageMatch;
     } else {
-        console.log('check3');
         gMeme = { ...gMemeDef }
         gMeme.selectedImgId = imgId;
     }
@@ -78,7 +88,7 @@ function setImg(imgId) {
 // buttons Actions
 
 function setSize(diff) {
-    gMeme.lines[0].size += diff;
+    gMeme.lines[gMeme.selectedLineIdx].size += diff;
 }
 
 function setColor(color) {
@@ -93,12 +103,14 @@ function moveLine(diff) {
 function resetTxt() {
     if (savedMemes) {
         savedImgs = savedMemes.map(meme => meme.selectedImgId);
+        console.log('savedImgs:', savedImgs);
+
         if (savedImgs.includes(gMeme.selectedImgId)) return;
     }
-    console.log('imclening');
+    console.log('vla');
     gMeme.lines.forEach(line => {
         line.txt = ''
-        line.size = 20;
+        line.size = 35;
         line.color = 'white'
     })
 }
@@ -114,8 +126,33 @@ function saveMeme() {
 }
 
 
-function _saveMemeToStorage() {
-    saveToStorage(STORAGE_KEY, gMeme);
+
+
+function setStrokeColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].strokeColor = color;
 }
 
 
+function setAlign(dir) {
+    if (dir === 'left') gMeme.lines[gMeme.selectedLineIdx].align = 'start';
+    if (dir === 'right') gMeme.lines[gMeme.selectedLineIdx].align = 'center';
+    if (dir === 'center') gMeme.lines[gMeme.selectedLineIdx].align = 'end';
+}
+
+function setFont(font) {
+    gMeme.lines[gMeme.selectedLineIdx].font = font;
+}
+
+function getMemeTxt() {
+    return gMeme.lines[gMeme.selectedLineIdx].txt
+}
+
+function updateLineIdx() {
+    if (gMeme.selectedLineIdx === 2) return;
+    gMeme.selectedLineIdx++
+}
+
+
+function _saveMemeToStorage() {
+    saveToStorage(STORAGE_KEY, gMeme);
+}

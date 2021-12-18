@@ -1,9 +1,15 @@
 'use strict'
-var gCanvas;
-var gCtx;
+
+// Globals
+let gCanvas;
+let gCtx;
 let savedMemes;
+let gIsDownload;
 
 function init() {
+    setUser()
+    gPageIdx = 0;
+    onHandlePages(0)
     handleUserModal();
     savedMemes = loadFromStorage('memeDB');
     gCanvas = document.querySelector('canvas')
@@ -11,19 +17,19 @@ function init() {
     renderGallery();
 }
 
-
-
-
 function handleUserModal() {
-    const x = loadFromStorage('userDB')
-    // console.log('x', x);
+    const userData = loadFromStorage('userDB');
+    if (!userData || userData === []) {
+        toggleModal(true);
+    } else {
+        renderUserName()
+    }
 
 }
 
 function onChangeText(value) {
-    // console.log('bla');
     changeText(value);
-    renderMeme()
+    renderMeme();
 }
 
 function renderMeme(isRect = true) {
@@ -33,9 +39,9 @@ function renderMeme(isRect = true) {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
         if (isRect) {
-            if (meme.lineIdx === 0) drawRect(40, 40, meme);
-            if (meme.lineIdx === 1) drawRect(40, 200, meme)
-            if (meme.lineIdx === 2) drawRect(40, 300, meme)
+            if (meme.lineIdx === 0) drawRect(20, 20, meme);
+            if (meme.lineIdx === 2) drawRect(40, 200, meme)
+            if (meme.lineIdx === 1) drawRect(40, 300, meme)
         }
         drawText(meme)
     };
@@ -44,12 +50,13 @@ function renderMeme(isRect = true) {
 
 
 function drawText(meme) {
+
     meme.lines.forEach(line => {
-        gCtx.font = `normal normal ${line.size}px   Impact`
-        gCtx.fillStyle = 'white';
-        gCtx.strokeStyle = 'black'
-        gCtx.lineWidth = 1
-        // gCtx.textAlign = "center";
+        gCtx.font = `normal normal ${line.size}px   ${line.font}`
+        gCtx.fillStyle = line.color
+        gCtx.strokeStyle = line.strokeColor
+        gCtx.lineWidth = 2
+        gCtx.textAlign = line.align;
         gCtx.textBaseline = 'top'
         gCtx.fillText(line.txt, line.coordsTxt.x, line.coordsTxt.y);
         gCtx.strokeText(line.txt, line.coordsTxt.x, line.coordsTxt.y);
@@ -59,9 +66,9 @@ function drawText(meme) {
 
 
 function drawRect(x, y, meme) {
-    const memeLine = meme.lines[0];
-    const width = (memeLine.size < 22) ? memeLine.size * 15 : 22 * 15;
-    const height = (memeLine.size < 22) ? memeLine.size * 3 : 22 * 3;
+    const memeLine = meme.lines[gMeme.selectedLineIdx];
+    const width = (memeLine.size < 32) ? memeLine.size * 15 : 22 * 15;
+    const height = (memeLine.size < 32) ? memeLine.size * 3 : 22 * 3;
     gCtx.beginPath();
     gCtx.lineWidth = "2";
     gCtx.strokeStyle = "black";
@@ -72,12 +79,12 @@ function drawRect(x, y, meme) {
 
 
 
-///buttons
+// onclick/onchange
 
 function onMoveLine(diff) {
-    moveLine(diff);
-    document.querySelector('input').value = '';
-    renderMeme();
+    moveLine(diff)
+    document.querySelector('.input-txt').value = getMemeTxt();
+    renderMeme()
 }
 
 function onSetSize(diff) {
@@ -92,22 +99,65 @@ function onChangeColor(color) {
 
 function onResetMeme() {
     resetTxt();
-    document.querySelector('input').value = '';
 }
 
-
 function onToggleEditor(isOpen) {
-    const elContainerCls = document.querySelector('.editor-container').classList;
-    if (isOpen) elContainerCls.remove('hidden');
-    else {
-        elContainerCls.add('hidden')
+    let elEditor = document.querySelector('.editor-main-container').classList;
+    if (isOpen) {
+        elEditor.remove('hidden');
     }
+    else {
+        elEditor.add('hidden');
+        updateGalleryPage(true)
+        renderGallery()
+    }
+    handleChevron();
+
 }
 
 
 function onSaveMeme() {
     saveMeme();
-    renderMeme(false)
+    renderMeme(false);
+    renderPopup('saved')
 }
 
 
+function onSetStroke(color) {
+    setStrokeColor(color);
+    renderMeme();
+}
+
+
+function onSetAlign(dir) {
+    setAlign(dir);
+    renderMeme();
+}
+
+
+function onSetFont(font) {
+    console.log('font:', font);
+
+    setFont(font.value)
+    renderMeme()
+}
+
+function onFinishLine() {
+    updateLineIdx();
+    document.querySelector('.input-txt').value = getMemeTxt();
+    renderMeme();
+}
+
+function onDownloadImg() {
+    gIsDownload = true
+    renderMeme(false)
+    setTimeout(() => {
+        var url = gCanvas.toDataURL('image2/jpg', 1.0);
+        var link = document.getElementById("dn-link")
+        link.href = url
+        link.click()
+        gIsDownload = false
+        rendergMeme()
+    }, 50);
+    renderPopup('downloaded')
+}
